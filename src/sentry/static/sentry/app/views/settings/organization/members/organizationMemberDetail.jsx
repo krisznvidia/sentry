@@ -63,7 +63,7 @@ class OrganizationMemberDetail extends AsyncView {
       data: this.state.member,
     })
       .then(() => {
-        IndicatorStore.add('Saved', 'success', {duration: 5000});
+        IndicatorStore.addSuccess('Saved');
         let members = recreateRoute('members/', {
           routes: this.props.routes,
           params: this.props.params,
@@ -71,7 +71,7 @@ class OrganizationMemberDetail extends AsyncView {
         });
         browserHistory.push(members);
       })
-      .catch(() => IndicatorStore.add('Could not save...', 'error', {duration: 5000}))
+      .catch(() => IndicatorStore.addError('Could not save...'))
       .then(() => {
         IndicatorStore.remove(indicator);
         this.setState({busy: false});
