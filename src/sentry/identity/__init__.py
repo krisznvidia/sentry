@@ -13,3 +13,6 @@ get = default_manager.get
 exists = default_manager.exists
 register = default_manager.register
 unregister = default_manager.unregister
+
+# TODO(epurkhiser): needs to be initialized some other way
+register(SlackIdentityProvider) # NOQA
