@@ -159,13 +159,13 @@ const ProjectSettings = React.createClass({
             <ListLink to={`/${orgId}/${projectId}/settings/plugins/`}>
               {t('All Integrations')}
             </ListLink>
-            {project.plugins.filter(p => p.enabled).map(plugin => {
-              return (
-                <li key={plugin.id}>
-                  <a href={`${settingsUrlRoot}/plugins/${plugin.id}/`}>{plugin.name}</a>
-                </li>
-              );
-            })}
+            {project.plugins
+              .filter(p => p.enabled && p.hasConfiguration)
+              .map(({id, name}) => (
+                <ListLink key={id} to={`/${orgId}/${projectId}/settings/plugins/${id}`}>
+                  {name}
+                </ListLink>
+              ))}
           </ul>
         </div>
         <div className="col-md-10">
