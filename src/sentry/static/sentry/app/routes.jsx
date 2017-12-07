@@ -74,6 +74,7 @@ import ProjectKeyDetails from './views/projectKeyDetails';
 import ProjectKeys from './views/projectKeys';
 import ProjectPicker from './views/settings/components/projectPicker';
 import ProjectProcessingIssues from './views/projectProcessingIssues';
+import ProjectIssueTracking from './views/projectIssueTracking';
 import ProjectReleaseTracking from './views/projectReleaseTracking';
 import ProjectReleases from './views/projectReleases';
 import ProjectSavedSearches from './views/projectSavedSearches';
@@ -238,6 +239,12 @@ const projectSettingsRoutes = [
     path="alerts/rules/"
     name="Alert Rules"
     component={errorHandler(ProjectAlertRules)}
+  />,
+  <Route
+    key="issue-tracking/"
+    path="issue-tracking/"
+    name="Issue Tracking"
+    component={errorHandler(ProjectIssueTracking)}
   />,
   <Route
     key="release-tracking/"
