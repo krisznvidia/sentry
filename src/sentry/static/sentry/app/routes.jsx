@@ -385,6 +385,7 @@ function routes() {
             component={errorHandler(OrganizationContext)}
           >
             <Route component={errorHandler(OrganizationSettingsLayout)}>
+              {hooksOrgRoutes}
               {orgSettingsRoutes}
             </Route>
 
