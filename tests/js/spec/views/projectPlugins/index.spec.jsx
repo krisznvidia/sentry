@@ -1,8 +1,11 @@
 import React from 'react';
 import {mount} from 'enzyme';
 import ProjectPlugins from 'app/views/projectPlugins';
+import {fetchPlugins, enablePlugin, disablePlugin} from 'app/actionCreators/plugins';
 
-describe('ProjectPlugins', function() {
+jest.mock('app/actionCreators/plugins');
+
+describe('ProjectPluginsContainer', function() {
   let org, project, plugins, wrapper;
 
   beforeEach(function() {
@@ -32,23 +35,28 @@ describe('ProjectPlugins', function() {
       }
     );
   });
-  it('renders', function() {
-    expect(wrapper).toMatchSnapshot();
+
+  it('calls `fetchPlugins` action creator after mount', function() {
+    expect(fetchPlugins).toHaveBeenCalled();
   });
 
-  it('enables plugin', function() {
-    let checkbox = wrapper.find('input[name="amazon-sqs"]');
+  it('calls `enablePlugin` action creator when enabling plugin', function() {
+    let onChange = wrapper.find('ProjectPlugins').prop('onChange');
 
-    checkbox.simulate('change', {target: {checked: true}});
+    expect(enablePlugin).not.toHaveBeenCalled();
 
-    expect(checkbox.props().checked).toBe(true);
+    onChange('pluginId', true);
+
+    expect(enablePlugin).toHaveBeenCalled();
   });
 
-  it('disables plugin', function() {
-    let checkbox = wrapper.find('input[name="github"]');
+  it('calls `disablePlugin` action creator when disabling plugin', function() {
+    let onChange = wrapper.find('ProjectPlugins').prop('onChange');
 
-    checkbox.simulate('change', {target: {checked: false}});
+    expect(disablePlugin).not.toHaveBeenCalled();
 
-    expect(checkbox.props().checked).toBe(false);
+    onChange('pluginId', false);
+
+    expect(disablePlugin).toHaveBeenCalled();
   });
 });
