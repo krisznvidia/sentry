@@ -206,6 +206,7 @@ class ProjectDetailsEndpoint(ProjectEndpoint):
             changed = True
 
         if result.get('team'):
+            # TODO(jess): fix in another pr to add team
             team_list = [
                 t for t in Team.objects.get_for_user(
                     organization=project.organization,

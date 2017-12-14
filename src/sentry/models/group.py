@@ -422,6 +422,7 @@ class Group(Model):
 
     @property
     def team(self):
+        # TODO(jess): figure out how to fix
         return self.project.team
 
     @property

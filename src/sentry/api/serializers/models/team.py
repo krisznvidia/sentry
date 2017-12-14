@@ -72,7 +72,7 @@ class TeamWithProjectsSerializer(TeamSerializer):
     def get_attrs(self, item_list, user):
         project_qs = list(
             Project.objects.filter(
-                team__in=item_list,
+                teams__in=item_list,
                 status=ProjectStatus.VISIBLE,
             ).order_by('name', 'slug')
         )
@@ -82,11 +82,13 @@ class TeamWithProjectsSerializer(TeamSerializer):
         orgs = {i.organization_id: i.organization for i in item_list}
 
         for project in project_qs:
+            # TODO(jess): fix
             project._team_cache = team_map[project.team_id]
             project._organization_cache = orgs[project.organization_id]
 
         project_map = defaultdict(list)
         for project, data in zip(project_qs, serialize(project_qs, user)):
+            # TODO(jess): fix
             project_map[project.team_id].append(data)
 
         result = super(TeamWithProjectsSerializer, self).get_attrs(item_list, user)

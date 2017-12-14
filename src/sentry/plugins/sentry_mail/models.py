@@ -118,6 +118,7 @@ class MailPlugin(NotificationPlugin):
 
         This result may come from cached data.
         """
+        # TODO(jess): fix
         if not (project and project.team):
             logger.debug('Tried to send notification to invalid project: %r', project)
             return []

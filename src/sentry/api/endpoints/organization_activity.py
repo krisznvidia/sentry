@@ -11,7 +11,7 @@ class OrganizationActivityEndpoint(OrganizationMemberEndpoint):
         queryset = Activity.objects.filter(
             project__in=Project.objects.filter(
                 organization=organization,
-                team__in=OrganizationMemberTeam.objects.filter(
+                teams__in=OrganizationMemberTeam.objects.filter(
                     organizationmember=member,
                 ).values('team')
             )

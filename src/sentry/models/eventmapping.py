@@ -30,6 +30,7 @@ class EventMapping(Model):
 
     @property
     def team(self):
+        # TODO(jess): figure out how to fix this
         return self.project.team
 
     # Implement a ForeignKey-like accessor for backwards compat

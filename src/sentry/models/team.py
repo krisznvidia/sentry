@@ -32,6 +32,7 @@ class TeamManager(BaseManager):
             OrganizationMemberTeam,
             Project,
             ProjectStatus,
+            ProjectTeam,
             OrganizationMember,
         )
 
@@ -71,20 +72,26 @@ class TeamManager(BaseManager):
         if with_projects:
             project_list = sorted(
                 Project.objects.filter(
-                    team__in=team_list,
+                    teams__in=team_list,
                     status=ProjectStatus.VISIBLE,
                 ),
                 key=lambda x: x.name.lower()
             )
-            projects_by_team = {t.id: [] for t in team_list}
+
+            teams_by_project = {p.id: set() for p in project_list}
+            for project_id, team_id in ProjectTeam.objects.filter(
+                project__in=project_list,
+            ).values_list('project_id', 'team_id'):
+                teams_by_project[project_id].add(team_id)
+
+            projects_by_team = {t.id: set() for t in team_list}
             for project in project_list:
-                projects_by_team[project.team_id].append(project)
+                for team_id in teams_by_project[project.id]:
+                    projects_by_team[team_id].add(project)
 
             # these kinds of queries make people sad :(
             for idx, team in enumerate(results):
-                team_projects = projects_by_team[team.id]
-                for project in team_projects:
-                    project.team = team
+                team_projects = list(projects_by_team[team.id])
                 results[idx] = (team, team_projects)
 
         return results
@@ -194,7 +201,7 @@ class Team(Model):
 
         project_ids = list(
             Project.objects.filter(
-                team=self,
+                teams=self,
             ).exclude(
                 organization=organization,
             ).values_list('id', flat=True)

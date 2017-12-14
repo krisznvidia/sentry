@@ -129,6 +129,7 @@ class Event(Model):
 
     @property
     def team(self):
+        # TODO(jess): figure out how to fix these
         return self.project.team
 
     @property

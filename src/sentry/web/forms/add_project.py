@@ -31,6 +31,7 @@ class AddProjectForm(forms.ModelForm):
 
     def save(self, actor, team, ip_address):
         project = super(AddProjectForm, self).save(commit=False)
+        # TODO(jess): fix in another pr
         project.team = team
         project.organization = team.organization
         project.save()
