@@ -18,7 +18,7 @@ from sentry.api.serializers import serialize
 from sentry.api.serializers.models.project import DetailedProjectSerializer
 from sentry.models import (
     AuditLogEntryEvent, Group, GroupStatus, Project, ProjectBookmark, ProjectStatus,
-    UserOption, Team,
+    ProjectTeam, UserOption, Team,
 )
 from sentry.tasks.deletion import delete_project
 from sentry.utils.apidocs import scenario, attach_scenarios
@@ -205,6 +205,7 @@ class ProjectDetailsEndpoint(ProjectEndpoint):
             project.name = result['name']
             changed = True
 
+        old_team = None
         if result.get('team'):
             team_list = [
                 t for t in Team.objects.get_for_user(
@@ -220,7 +221,8 @@ class ProjectDetailsEndpoint(ProjectEndpoint):
                         'detail': ['The new team is not found.']
                     }, status=400
                 )
-            project.team = team_list[0]
+            old_team = project.team
+            project.team = old_team
             changed = True
 
         if result.get('platform'):
@@ -229,6 +231,11 @@ class ProjectDetailsEndpoint(ProjectEndpoint):
 
         if changed:
             project.save()
+            if old_team is not None:
+                ProjectTeam.objects.filter(
+                    project=project,
+                    team=old_team,
+                ).update(team=project.team)
 
         if result.get('isBookmarked'):
             try:
