@@ -7,6 +7,10 @@ const personalNavigation = [
     name: t('Personal'),
     items: [
       {
+        path: `${pathPrefix}/avatar`,
+        title: t('Avatar'),
+      },
+      {
         path: `${pathPrefix}/notifications/`,
         title: t('Notifications'),
       },

@@ -368,7 +368,7 @@ const AvatarCropper = React.createClass({
   render() {
     let src = this.getImgSrc();
     let style = {
-      position: 'absolute',
+      display: 'none',
     };
 
     return (

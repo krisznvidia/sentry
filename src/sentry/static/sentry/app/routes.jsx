@@ -57,6 +57,7 @@ import OrganizationStats from './views/organizationStats';
 import OrganizationTeams from './views/organizationTeams';
 import PersonalSettingsLayout from './views/settings/personal/personalSettingsLayout';
 import PersonalNotifications from './views/settings/personal/personalNotifications';
+import PersonalAvatar from './views/settings/personal/avatar';
 import PersonalEmails from './views/settings/personal/personalEmails';
 import ProjectAlertRules from './views/projectAlertRules';
 import ProjectAlertSettings from './views/projectAlertSettings';
@@ -239,6 +240,12 @@ const personalSettingsRoutes = [
     path="emails/"
     name="Emails"
     component={errorHandler(PersonalEmails)}
+  />,
+  <Route
+    key="avatar/"
+    path="avatar/"
+    name="Avatar"
+    component={errorHandler(PersonalAvatar)}
   />,
 ];
 
