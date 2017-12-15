@@ -400,7 +400,7 @@ class V2TagStorage(TagStorage):
                         },
                         filters={
                             'project_id': project_id,
-                            '_key__environment_id': env,  # TODO
+                            '_key__environment_id': env,
                             '_key_id': tagkey.id,
                             'value': value,
                         },
@@ -415,7 +415,7 @@ class V2TagStorage(TagStorage):
                     filters={
                         'project_id': project_id,
                         'group_id': group_id,
-                        '_key__environment_id': environment_id,  # TODO
+                        '_key__environment_id': environment_id,
                         '_key_id': key,
                     })
 
@@ -432,7 +432,7 @@ class V2TagStorage(TagStorage):
                         filters={
                             'project_id': project_id,
                             'group_id': group_id,
-                            '_key__environment_id': env,  # TODO
+                            '_key__environment_id': env,
                             '_key_id': tagkey.id,
                             '_value_id': tagvalue.id,
                         },
@@ -728,7 +728,11 @@ class V2TagStorage(TagStorage):
 
     def _get_environment_filter(self, environment_id, join=False):
         """\
-        TODO
+        Returns a dict to be used in ORM queries to filter by
+        `environment_id`.
+
+        If `join` is true it will join across the `_key` column that non-TagKey
+        models have in order to reach the `environment_id` there.
         """
         prefix = "_key__" if join else ""
         if environment_id is None:
